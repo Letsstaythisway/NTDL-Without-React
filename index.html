@@ -35,7 +35,11 @@
         <h1 class="text-center">NOT TO DO LIST</h1>
 
         <!-- form -->
-        <form action="" class="border p-5 rounded shadow-lg mt-4 border">
+        <form
+          onsubmit="handleOnSubmit(this)"
+          action="javascript:void(0)"
+          class="border p-5 rounded shadow-lg mt-4 border"
+        >
           <div class="row g-2">
             <div class="col-md-7">
               <input
@@ -44,6 +48,7 @@
                 placeholder="Task"
                 aria-label="Task"
                 name="task"
+                id="task"
               />
             </div>
             <div class="col-md-2">
