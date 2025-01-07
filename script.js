@@ -1,9 +1,11 @@
 let taskList = [];
 
+const hrsPerWeek = 24 * 7;
+
 const handleOnSubmit = (e) => {
   const newForm = new FormData(e);
   const task = newForm.get("task");
-  const hr = newForm.get("hr");
+  const hr = +newForm.get("hr");
 
   const obj = {
     task,
@@ -11,6 +13,13 @@ const handleOnSubmit = (e) => {
     id: randomIdGenerator(),
     type: "entry",
   };
+
+  const existingTtlHr = taskTotal();
+
+  if (existingTtlHr + hr > hrsPerWeek) {
+    return alert("SOrry boss dont have enough time to finish this task.");
+  }
+
   taskList.push(obj);
   displayEntryList();
 };
@@ -43,6 +52,7 @@ const displayEntryList = () => {
   });
 
   entryElm.innerHTML = str;
+  taskTotal();
 };
 
 const displayBadList = () => {
@@ -74,6 +84,10 @@ const displayBadList = () => {
   });
 
   badElm.innerHTML = str;
+  document.getElementById("savedHrsElm").innerText = badList.reduce(
+    (acc, item) => acc + item.hr,
+    0
+  );
 };
 
 const randomIdGenerator = (length = 6) => {
@@ -102,7 +116,16 @@ const switchTask = (id, type) => {
     }
     return item;
   });
-
   displayEntryList();
   displayBadList();
+};
+
+const taskTotal = () => {
+  const ttlHr = taskList.reduce((acc, item) => {
+    return acc + item.hr;
+  }, 0);
+
+  document.getElementById("ttlHrs").innerText = ttlHr;
+
+  return ttlHr;
 };
